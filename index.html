@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>api wikipedia</title>
+</head>
+
+<body>
+<div id="header">
+  <div id="searchPanel">
+    <input type="text" id="sea" onKeyUp="jump()">
+    <ul id="display">
+    </ul>
+  </div>
+</div>
+<script>
+	
+var http= new XMLHttpRequest();
+	document.getElementById("display").style.visibility = "hidden";
+	
+	// creation jump
+	function jump (){
+		var term = document.getElementById("sea").value;
+		var str = term;
+		var replaced = str.split(" ").join('_');
+		term = replaced ; // ??
+		
+		if(term ==""){
+			document.getElementById('display').innerHTML="";
+			http.abort();
+			document.getElementById("display").style.visibility ="hidden";
+			
+		}
+		else {
+			http.onreadystatechange = function(){
+				if (this.readyState == 4 && this.status == 200 ){
+					document.getElementById("display").innerHTML ="";
+					getData(this);
+					document.getElementById("display").style.visibility = "visible";
+				}
+			};
+			 var url = "proxy.php?a=" + term;
+			http.open("GET",url, true);
+			http.send();
+		}
+	}
+		function getData(data) {
+				
+					var dataread = JSON.parse(data.responseText);
+					var read = dataread[1];
+						var ul = document.getElementById("display");
+       				for(var i = 0; i < read.length; i++) {
+						if(read[i] != "") {
+						var item = document.createElement("li");
+						item.appendChild(document.createTextNode(read[i]));
+						ul.appendChild(item);
+						
+						
+						}else {
+						}
+					}
+			}
+	
+	//**2eme partie*///
+	var val = document.getElementById("display");
+		val.onclick = function(event) {
+			var e = event.target;
+			showme(event.target.innerHTML);
+		}
+		function showme(res) {
+			var http2 = new XMLHttpRequest();
+			http2.onreadystatechange = function() {
+				if(this.readyState == 4 && this.status == 200) {
+					
+					showData(this);	
+					
+				}
+			};
+			var res2 = res.split(' ').join('_');
+			var url2 = "simple.php?a="+ res2;
+			http2.open("GET",url2, true);
+			http2.send(null);
+		}
+		function showData(d) {
+			document.getElementById("d").style.visibility = "hidden";
+
+			var s = d.responseText;
+
+			var ss =s.split("\n").join("");
+			var sss = ss.split('"\""').join("");
+			ss = sss.split('\"').join('');
+			sss = ss.split("\\n").join("");
+			ss = sss.split("\\u").join("");
+			sss = ss.split("\\").join("");
+			ss = sss.split("{").join("");
+			sss = ss.split("}").join("");
+			
+			ss = sss.split("frac 12").join("1/2");
+			sss = ss.split("displaystyle").join("");
+			ss = sss.split("frac a-ba+b").join("a-b/a+b");
+			//sss = ss.split("mathrm").join("/");
+
+			document.getElementById("definitions").innerHTML = ss;
+		}
+</script>
+	<div style="text-align: right;position: fixed;z-index:9999999;bottom: 0; width: 100%;cursor: pointer;line-height: 0;display:block !important;"  ><a title="Hosted on free web hosting 000webhost.com. Host your own website for FREE." target="_blank" href="https://www.000webhost.com/?utm_source=000webhostapp&amp;utm_campaign=000_logo&amp;utm_medium=website&amp;utm_content=footer_img"><img src="https://cdn.000webhost.com/000webhost/logo/footer-powered-by-000webhost-white2.png"  alt="www.000webhost.com"></a></div>
+</body>
+</html>
