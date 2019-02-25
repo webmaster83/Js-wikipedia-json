@@ -3,7 +3,28 @@
 <html>
 <head>
 	<title>Wikipedia Search Panel</title>
+
+    <link type="text/css" rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<div id="header">
+	<div id="searchpanel">
+		<input type="text" id="sea" onKeyUp="jump()"/>
+        
+        <ul id="d">
+        </ul>
+      
+	</div>
+    </div>
+	
+	<div style="color:green;background-color:yellow; margin-top:100px">
+		<p id="definitions" style="font-family:Ubuntu; text-align: justify;text-justify: newspaper; color:#333333;"> Definition will be here</p>
+	</div>
+	
+	
+	
 	<script type="text/javascript">
+			/*partie 1*/
 		var http = new  XMLHttpRequest();
 		document.getElementById("d").style.visibility = "hidden";
 		function jump() {
@@ -47,27 +68,9 @@
 					}
 			}
 			
-	</script>
-    <link type="text/css" rel="stylesheet" href="style.css" />
-</head>
-<body>
-	<div id="header">
-	<div id="searchpanel">
-		<input type="text" id="sea" onKeyUp="jump()"/>
-        
-        <ul id="d">
-        </ul>
-      
-	</div>
-    </div>
-	
-	<div style="color:green;background-color:yellow; margin-top:100px">
-		<p id="definitions" style="font-family:Ubuntu; text-align: justify;text-justify: newspaper; color:#333333;"> Definition will be here</p>
-	</div>
-	
-	
-	
-	<script type="text/javascript">
+
+		
+		/* partie 2*/
 		var val = document.getElementById("d");
 		val.onclick = function(event) {
 			var e = event.target;
